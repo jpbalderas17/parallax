@@ -3,10 +3,41 @@
 <meta charset="UTF-8">
 <title>Parallax</title>
 </head>
-<body>
+<body onload='init();'>
 	<div>
-		<canvas id="game-canvas"></canvas>
+		<canvas id="game-canvas" style='width:512px;height:384px'></canvas>
 	</div>
 	<script type="text/javascript" src='js/pixi.dev.js'></script>
+	<script type="text/javascript">
+		function init () {
+			stage=new PIXI.Stage(0x66FF99);
+			renderer= PIXI.autoDetectRenderer(
+				512,
+				384,
+				{view:document.getElementById("game-canvas")}
+				);
+			var farTexture = PIXI.Texture.fromImage("resources/bg-far.png");
+			far=new PIXI.Sprite(farTexture);
+			far.position.x=0;
+			far.position.y=0;
+			stage.addChild(far);
+
+			var midTexture = PIXI.Texture.fromImage("resources/bg-mid.png");
+			mid=new PIXI.Sprite(midTexture);
+			mid.position.x=0;
+			mid.position.y=120;
+
+			stage.addChild(mid);
+			//renderer.render(stage);
+
+			requestAnimFrame(update);
+		}
+		function update () {
+			far.position.x-=0.128;
+			mid.position.x-=0.64;
+			renderer.render(stage);
+			requestAnimFrame(update);
+		}
+	</script>
 </body>
 </html>
